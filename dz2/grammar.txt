@@ -1,0 +1,88 @@
+1.  module       = decl { decl } ;
+
+2.  decl         = IDENT "(" [ varDefs ] ")" declBody ;
+
+3.  declBody     = "=>" predicate
+                | [ "requires" predicate ]
+                  "returns" varDefs
+                  [ "ensures" predicate ]
+                  [ "uses" varDefs     ]
+                  statement ;
+
+4.  varDefs      = varDef { "," varDef } ;
+
+5.  varDef       = IDENT ":" type ;
+8.  type         = "int" | "int[]" ;
+
+9.statement =
+      simpleStmt
+    | block
+    | ifStmt
+    | whileStmt ;
+
+10. ifStmt =
+    "if" "(" condition ")" statement
+    [ "else" statement ] ;
+
+11. whileStmt =
+    "while" "(" condition ")"
+    [ "invariant" predicate ]
+    statement ;
+
+12. simpleStmt =
+      assignment
+    | "assert" predicate ";"
+    | "assume" predicate ";" ;
+
+13. block = "{" { statement } "}" ;
+14. assignment   = IDENT assignmentTail ;
+
+15. assignmentTail =
+                      "=" expr ";"
+                    | "[" expr "]" "=" expr ";"
+                    | tupleTail "=" functionCall ";";
+
+16.tupleTail      = "," IDENT { "," IDENT };
+
+17. functionCall = ( IDENT | "length" ) "(" [ arguments ] ")" ;
+
+18. arguments    = expr { "," expr } ;
+
+19. expr         = term { ("+" | "-") term } ;
+
+20. term         = unary { ("*" | "/") unary } ;
+
+21. unary        = "-" unary | primary ;
+
+22. primary      = INT
+                | functionCall
+	| IDENT
+                | IDENT [ "[" expr "]" ]
+                | "(" expr ")" ;
+
+23. comparisonOp = "==" | "!=" | ">=" | "<="
+                | ">" | "<" ;
+
+24. condition    = orExpr [ "->" condition ] ;
+
+25. orExpr       = andExpr { "or" andExpr } ;
+
+26. andExpr      = notExpr { "and" notExpr } ;
+
+27. notExpr      = "not" notExpr | predicateAtom ;
+
+28. predicateAtom
+                 = "true"
+                | "false"
+                | quantifier
+                | comparison
+		| “(“ condition”)”
+		| formulaRef  ;
+
+29. comparison   = expr comparisonOp expr ;
+
+30. quantifier   = ("forall" | "exists")
+                  "(" varDef "|" predicate ")" ;
+31formulaRef  = IDENT "(" [ expr { "," expr } ] ")" ;
+
+32. predicate    = condition ;
