@@ -1,0 +1,62 @@
+
+isNonNegative(x: int) =>
+    x >= 0
+
+
+allNonNegative(a: int[], n: int) =>
+    forall(i: int | (i >= 0 and i < n) -> a[i] >= 0)
+
+
+increment(x: int)
+    requires x >= 0
+    returns result: int
+    ensures result == x + 1
+{
+    result = x + 1;
+}
+
+
+sumArray(a: int[], n: int)
+    requires n >= 0
+    returns result: int
+    ensures result >= 0
+    uses i: int
+{
+    result = 0;
+    i = 0;
+
+    while (i < n)
+        invariant result >= 0
+    {
+        result = result + a[i];
+        i = i + 1;
+    }
+}
+
+
+max(a: int, b: int)
+    returns result: int
+{
+    if (a > b) {
+        result = a;
+    }
+    else {
+        result = b;
+    }
+}
+
+
+calculate(x: int, y: int)
+    returns sum: int, difference: int
+{
+    sum, difference = calculateValues(x, y);
+}
+
+
+checkArray(a: int[])
+    returns n: int
+{
+    n = length(a);
+    assert n >= 0;
+    assume n == length(a);
+}

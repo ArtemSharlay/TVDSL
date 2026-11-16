@@ -1,0 +1,149 @@
+Module
+  FormulaDecl: isNonNegative
+    Parameters:
+      VariableDecl: x int
+    Predicate:
+      ComparisonPredicate: >=
+        Variable: x
+        Number: 0
+  FormulaDecl: allNonNegative
+    Parameters:
+      VariableDecl: a intArray
+      VariableDecl: n int
+    Predicate:
+      QuantifierPredicate: forall
+        Variable:
+          VariableDecl: i int
+        Body:
+          ImplicationPredicate: ->
+            LogicalPredicate: AND
+              ComparisonPredicate: >=
+                Variable: i
+                Number: 0
+              ComparisonPredicate: <
+                Variable: i
+                Variable: n
+            ComparisonPredicate: >=
+              ArrayAccess: a
+                Variable: i
+              Number: 0
+  FunctionDecl: increment
+    Parameters:
+      VariableDecl: x int
+    Returns:
+      VariableDecl: result int
+    Requires:
+      ComparisonPredicate: >=
+        Variable: x
+        Number: 0
+    Ensures:
+      ComparisonPredicate: ==
+        Variable: result
+        Add
+          Variable: x
+          Number: 1
+    Body:
+      BlockStmt
+        AssignmentStmt: result
+          Add
+            Variable: x
+            Number: 1
+  FunctionDecl: sumArray
+    Parameters:
+      VariableDecl: a intArray
+      VariableDecl: n int
+    Returns:
+      VariableDecl: result int
+    Locals:
+      VariableDecl: i int
+    Requires:
+      ComparisonPredicate: >=
+        Variable: n
+        Number: 0
+    Ensures:
+      ComparisonPredicate: >=
+        Variable: result
+        Number: 0
+    Body:
+      BlockStmt
+        AssignmentStmt: result
+          Number: 0
+        AssignmentStmt: i
+          Number: 0
+        WhileStmt
+          Condition:
+            ComparisonPredicate: <
+              Variable: i
+              Variable: n
+          Invariant:
+            ComparisonPredicate: >=
+              Variable: result
+              Number: 0
+          Body:
+            BlockStmt
+              AssignmentStmt: result
+                Add
+                  Variable: result
+                  ArrayAccess: a
+                    Variable: i
+              AssignmentStmt: i
+                Add
+                  Variable: i
+                  Number: 1
+  FunctionDecl: max
+    Parameters:
+      VariableDecl: a int
+      VariableDecl: b int
+    Returns:
+      VariableDecl: result int
+    Body:
+      BlockStmt
+        IfStmt
+          Condition:
+            ComparisonPredicate: >
+              Variable: a
+              Variable: b
+          Then:
+            BlockStmt
+              AssignmentStmt: result
+                Variable: a
+          Else:
+            BlockStmt
+              AssignmentStmt: result
+                Variable: b
+  FunctionDecl: calculate
+    Parameters:
+      VariableDecl: x int
+      VariableDecl: y int
+    Returns:
+      VariableDecl: sum int
+      VariableDecl: difference int
+    Body:
+      BlockStmt
+        TupleAssignmentStmt
+          Targets:
+            sum
+            difference
+          FunctionCall:
+            FunctionCall: calculateValues
+              Variable: x
+              Variable: y
+  FunctionDecl: checkArray
+    Parameters:
+      VariableDecl: a intArray
+    Returns:
+      VariableDecl: n int
+    Body:
+      BlockStmt
+        AssignmentStmt: n
+          FunctionCall: length
+            Variable: a
+        AssertStmt
+          ComparisonPredicate: >=
+            Variable: n
+            Number: 0
+        AssumeStmt
+          ComparisonPredicate: ==
+            Variable: n
+            FunctionCall: length
+              Variable: a
