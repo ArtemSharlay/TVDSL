@@ -13,6 +13,7 @@ increment(x: int)
     ensures result == x + 1
 {
     result = x + 1;
+    A[result] = 1;
 }
 
 

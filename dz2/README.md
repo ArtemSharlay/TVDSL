@@ -25,6 +25,38 @@ dz2/
 Ошибки
 Режим паники: в блоке пропуск до ; или }, на верхнем уровне — до следующего определения. Парсер собирает все ошибки за один проход и не зацикливается.
 
+AST узлы
+Module
+VariableDecl
+FunctionDecl
+FormulaDecl
+BoolPredicate
+CompareOp
+ComparisonPredicate
+LogicalOp
+LogicalPredicate
+ImplicationPredicate
+NotPredicate
+QuantifierType
+QuantifierPredicate
+FormulaCallPredicate
+NumberExpr
+BoolLiteralExpr
+VariableExpr
+BinaryExpr
+UnaryOp
+UnaryExpr
+FunctionCallExpr
+ArrayAccessExpr
+AssignmentStmt
+ArrayAssignmentStmt
+TupleAssignmentStmt
+IfStmt
+WhileStmt
+BlockStmt
+AssertStmt
+AssumeStmt
+
 ## Сборка проекта
 
 ### 1. Клонирование репозитория

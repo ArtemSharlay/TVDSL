@@ -32,10 +32,10 @@ int main()
      try {
         std::string source = readFile("D:/tldr/TVDSL/dz2/programm.txt");
          Parser par(source,dfa);
-        for (auto s : par.tokens) {
+ /*       for (auto s : par.tokens) {
              std::cout << s.token << "=token lexeme=" << s.lexeme << '\n';
         }
-        std::cout << "-------------------------" << '\n';
+        std::cout << "-------------------------" << '\n';*/
       
        auto tmp = par.parseModule();
         if (tmp != nullptr) {
